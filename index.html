@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>🌍 Carbon Footprint Tracker</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <main class="container">
+      <header>
+        <h1>🌍 Carbon Footprint Tracker</h1>
+        <p>Track your daily activities and monitor your environmental impact</p>
+      </header>
+
+      <!-- Activity Form -->
+      <section class="form-section">
+        <div class="card">
+          <h2>Add New Activity</h2>
+          <form id="activity-form">
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="category">Category</label>
+                <select id="category" required>
+                  <option value="">Select category</option>
+                  <option value="transport">🚗 Transport</option>
+                  <option value="food">🍽️ Food</option>
+                  <option value="energy">⚡ Energy</option>
+                  <option value="other">📦 Other</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="activity">Activity</label>
+                <select id="activity" required disabled>
+                  <option value="">Select activity</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="amount">Amount</label>
+                <input
+                  type="number"
+                  id="amount"
+                  step="0.1"
+                  min="0"
+                  required
+                  placeholder="Enter amount"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="unit">Unit</label>
+                <input
+                  type="text"
+                  id="unit"
+                  readonly
+                  placeholder="Unit will be set automatically"
+                />
+              </div>
+            </div>
+
+            <div id="co2-preview" class="co2-preview hidden">
+              <strong>Estimated CO2 Emission:</strong>
+              <span id="co2-amount">0</span> kg CO2
+            </div>
+
+            <button type="submit" class="btn btn-primary">Add Activity</button>
+          </form>
+        </div>
+      </section>
+
+      <!-- Summary Cards -->
+      <section class="summary-section">
+        <div class="summary-grid">
+          <div class="summary-card total-emissions">
+            <div class="summary-header">
+              <h3>Total Emissions</h3>
+              <span class="icon">📈</span>
+            </div>
+            <div class="summary-value" id="total-emissions">0.0 kg</div>
+            <div class="summary-label">CO2 equivalent</div>
+          </div>
+
+          <div class="summary-card today-emissions">
+            <div class="summary-header">
+              <h3>Today's Impact</h3>
+              <span class="icon">📅</span>
+            </div>
+            <div class="summary-value" id="today-emissions">0.0 kg</div>
+            <div class="summary-label">CO2 today</div>
+          </div>
+
+          <div class="summary-card activities-count">
+            <div class="summary-header">
+              <h3>Activities Logged</h3>
+              <span class="icon">🌱</span>
+            </div>
+            <div class="summary-value" id="activities-count">0</div>
+            <div class="summary-label">Total activities</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Category Filter -->
+      <section class="filter-section">
+        <h2>Filter Activities</h2>
+        <div class="filter-buttons" id="category-filters">
+          <button class="filter-btn active" data-category="all">
+            🌍 All Categories
+          </button>
+          <button class="filter-btn" data-category="transport">
+            🚗 Transport
+          </button>
+          <button class="filter-btn" data-category="food">🍽️ Food</button>
+          <button class="filter-btn" data-category="energy">⚡ Energy</button>
+          <button class="filter-btn" data-category="other">📦 Other</button>
+        </div>
+      </section>
+
+      <!-- Charts -->
+      <section class="charts-section">
+        <div class="charts-grid">
+          <div class="chart-card">
+            <h3>Emissions by Category</h3>
+            <div class="chart-container">
+              <canvas id="category-chart"></canvas>
+            </div>
+          </div>
+
+          <div class="chart-card">
+            <h3>Daily Emissions Trend</h3>
+            <div class="chart-container">
+              <canvas id="trend-chart"></canvas>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Activities List -->
+      <section class="activities-section">
+        <h2>Activity History</h2>
+        <div id="activities-list" class="activities-list">
+          <div class="empty-state" id="empty-state">
+            <div class="empty-icon">📋</div>
+            <p>No activities logged yet.</p>
+            <p class="empty-subtitle">
+              Start tracking your carbon footprint by adding activities!
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="./script.js" type="module"></script>
+  </body>
+</html>
