@@ -28,8 +28,8 @@ Track and log your daily carbon footprint using this simple Node.js + Express + 
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/your-username/carbon-footprint-logger.git
-   cd carbon-footprint-logger
+   git clone https://github.com/sulaiman001221/carbon-footprint-tracker.git
+   cd carbon-footprint-tracker
    ```
 
 2. **Install dependencies**
