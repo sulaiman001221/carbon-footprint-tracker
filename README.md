@@ -70,11 +70,8 @@ public/             # Static assets (HTML, CSS, JS)
 ---
 
 ## 🌱 Future Improvements
-- User authentication & personalized dashboards
-- Advanced analytics & charts
 - Export activity logs (CSV / PDF)
-- API endpoints for mobile apps
-
+- Real time analytics on home page
 ---
 
 ## 📝 License
