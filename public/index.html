@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>🌍 Carbon Footprint Tracker</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <!-- Auth Modal -->
+    <div id="auth-modal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 id="auth-title">Login</h2>
+          <span class="close">&times;</span>
+        </div>
+        <div class="modal-body">
+          <form id="auth-form">
+            <div id="username-group" class="form-group hidden">
+              <label for="username">Username</label>
+              <input type="text" id="username" placeholder="Enter username" />
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input
+                type="email"
+                id="email"
+                required
+                placeholder="Enter email"
+              />
+            </div>
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input
+                type="password"
+                id="password"
+                required
+                placeholder="Enter password"
+              />
+            </div>
+            <button type="submit" class="btn btn-primary" id="auth-submit">
+              Login
+            </button>
+          </form>
+          <div class="auth-switch">
+            <p id="auth-switch-text">
+              Don't have an account?
+              <a href="#" id="auth-switch-link">Register</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+      <div class="nav-container">
+        <div class="nav-brand">
+          <h1>🌍 Carbon Footprint Tracker</h1>
+        </div>
+        <div class="nav-menu">
+          <div id="user-info" class="user-info hidden">
+            <span id="username-display"></span>
+            <button id="logout-btn" class="btn btn-outline">Logout</button>
+          </div>
+          <div id="auth-buttons" class="auth-buttons">
+            <button id="login-btn" class="btn btn-outline">Login</button>
+            <button id="register-btn" class="btn btn-primary">Register</button>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container">
+      <!-- Welcome Section -->
+      <section id="welcome-section" class="welcome-section">
+        <div class="welcome-content">
+          <h2>Track Your Environmental Impact</h2>
+          <p>
+            Join our community of environmentally conscious individuals tracking
+            their carbon footprint.
+          </p>
+          <div class="welcome-stats">
+            <div class="stat-item">
+              <div class="stat-number" id="total-users">0</div>
+              <div class="stat-label">Active Users</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number" id="total-activities">0</div>
+              <div class="stat-label">Activities Logged</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number" id="total-emissions">0</div>
+              <div class="stat-label">kg CO2 Tracked</div>
+            </div>
+          </div>
+          <button id="get-started-btn" class="btn btn-primary btn-large">
+            Get Started
+          </button>
+        </div>
+      </section>
+
+      <!-- Dashboard -->
+      <div id="dashboard" class="dashboard hidden">
+        <!-- Summary Cards -->
+        <section class="summary-section">
+          <div class="summary-grid">
+            <div class="summary-card total-emissions">
+              <div class="summary-header">
+                <h3>Your Total Emissions</h3>
+                <span class="icon">📈</span>
+              </div>
+              <div class="summary-value" id="user-total-emissions">0.0 kg</div>
+              <div class="summary-label">CO2 equivalent</div>
+              <div class="summary-comparison" id="total-comparison"></div>
+            </div>
+
+            <div class="summary-card weekly-emissions">
+              <div class="summary-header">
+                <h3>This Week</h3>
+                <span class="icon">📅</span>
+              </div>
+              <div class="summary-value" id="user-weekly-emissions">0.0 kg</div>
+              <div class="summary-label">CO2 this week</div>
+              <div class="summary-comparison" id="weekly-comparison"></div>
+            </div>
+
+            <div class="summary-card community-avg">
+              <div class="summary-header">
+                <h3>Community Average</h3>
+                <span class="icon">👥</span>
+              </div>
+              <div class="summary-value" id="community-avg-emissions">
+                0.0 kg
+              </div>
+              <div class="summary-label">Average per user</div>
+              <div class="summary-comparison" id="community-users"></div>
+            </div>
+
+            <div class="summary-card streak">
+              <div class="summary-header">
+                <h3>Weekly Streak</h3>
+                <span class="icon">🔥</span>
+              </div>
+              <div class="summary-value" id="weekly-streak">0</div>
+              <div class="summary-label">Weeks logging</div>
+              <div class="summary-comparison" id="streak-message"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Tabs -->
+        <section class="tabs-section">
+          <div class="tabs">
+            <button class="tab-btn active" data-tab="activities">
+              📝 Activities
+            </button>
+            <button class="tab-btn" data-tab="weekly">📊 Weekly View</button>
+            <button class="tab-btn" data-tab="leaderboard">
+              🏆 Leaderboard
+            </button>
+          </div>
+
+          <!-- Activities Tab -->
+          <div id="activities-tab" class="tab-content active">
+            <!-- Activity Form -->
+            <div class="card">
+              <h2>Add New Activity</h2>
+              <form id="activity-form">
+                <div class="form-grid">
+                  <div class="form-group">
+                    <label for="category">Category</label>
+                    <select id="category" required>
+                      <option value="">Select category</option>
+                      <option value="transport">🚗 Transport</option>
+                      <option value="food">🍽️ Food</option>
+                      <option value="energy">⚡ Energy</option>
+                      <option value="other">📦 Other</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="activity">Activity</label>
+                    <select id="activity" required disabled>
+                      <option value="">Select activity</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="amount">Amount</label>
+                    <input
+                      type="number"
+                      id="amount"
+                      step="0.1"
+                      min="0"
+                      required
+                      placeholder="Enter amount"
+                    />
+                  </div>
+
+                  <div class="form-group">
+                    <label for="unit">Unit</label>
+                    <input
+                      type="text"
+                      id="unit"
+                      readonly
+                      placeholder="Unit will be set automatically"
+                    />
+                  </div>
+                </div>
+
+                <div id="co2-preview" class="co2-preview hidden">
+                  <div class="co2-preview-content">
+                    <span class="co2-icon">🌱</span>
+                    <div>
+                      <strong>Estimated CO2 Emission:</strong>
+                      <span id="co2-amount">0</span> kg CO2
+                    </div>
+                  </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary">
+                  Add Activity
+                </button>
+              </form>
+            </div>
+
+            <!-- Category Filter -->
+            <div class="card">
+              <h3>Filter Activities</h3>
+              <div class="filter-buttons" id="category-filters">
+                <button class="filter-btn active" data-category="all">
+                  🌍 All
+                </button>
+                <button class="filter-btn" data-category="transport">
+                  🚗 Transport
+                </button>
+                <button class="filter-btn" data-category="food">🍽️ Food</button>
+                <button class="filter-btn" data-category="energy">
+                  ⚡ Energy
+                </button>
+                <button class="filter-btn" data-category="other">
+                  📦 Other
+                </button>
+              </div>
+            </div>
+
+            <!-- Activities List -->
+            <div class="card">
+              <h2>Recent Activities</h2>
+              <div id="activities-list" class="activities-list">
+                <div class="loading">Loading activities...</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Weekly Tab -->
+          <div id="weekly-tab" class="tab-content">
+            <div class="card">
+              <h2>Weekly Emissions Trend</h2>
+              <div id="weekly-chart-container" class="chart-container">
+                <canvas id="weekly-chart"></canvas>
+              </div>
+            </div>
+            <div id="weekly-details" class="weekly-details"></div>
+          </div>
+
+          <!-- Leaderboard Tab -->
+          <div id="leaderboard-tab" class="tab-content">
+            <div class="card">
+              <div class="leaderboard-header">
+                <h2>🏆 Community Leaderboard</h2>
+                <div class="leaderboard-filters">
+                  <select id="leaderboard-period">
+                    <option value="week">This Week</option>
+                    <option value="month" selected>This Month</option>
+                    <option value="year">This Year</option>
+                    <option value="all">All Time</option>
+                  </select>
+                </div>
+              </div>
+              <div class="leaderboard-description">
+                <p>
+                  🌱 Users with the lowest carbon emissions are ranked higher
+                </p>
+              </div>
+              <div id="leaderboard-list" class="leaderboard-list">
+                <div class="loading">Loading leaderboard...</div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <!-- Notification Container -->
+    <div id="notification-container" class="notification-container"></div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
