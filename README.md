@@ -57,14 +57,14 @@ Track and log your daily carbon footprint using this simple Node.js + Express + 
 
 ## 📂 Project Structure
 ```
-carbon-footprint-logger/
+footprint-backend/
 ├── models/          # Mongoose models
 ├── routes/          # Express routes
-├── views/           # EJS templates
-├── public/          # Static assets (CSS, JS)
+├── middleware/      # auth middleware                   
 ├── server.js        # App entry point
 ├── package.json
 └── .env.example
+public/             # Static assets (HTML, CSS, JS)
 ```
 
 ---
