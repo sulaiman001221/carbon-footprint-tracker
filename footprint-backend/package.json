@@ -1,0 +1,35 @@
+{
+  "name": "footprint-backend",
+  "version": "1.0.0",
+  "description": "Full-stack Footprint Logger backend (Node.js + Express + MongoDB)",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "lint": "eslint . --ext .js,.mjs"
+  },
+  "keywords": [
+    "carbon",
+    "footprint",
+    "express",
+    "mongodb"
+  ],
+  "author": "Sulaiman Ndlovu",
+  "license": "Apache-2.0",
+  "type": "module",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "bcryptjs": "^3.0.2",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.2",
+    "express": "^5.1.0",
+    "express-rate-limit": "^8.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.18.1"
+  },
+  "devDependencies": {
+    "eslint": "^9.35.0",
+    "nodemon": "^3.1.10"
+  }
+}
