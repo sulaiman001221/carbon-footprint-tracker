@@ -6,6 +6,7 @@
     <title>🌍 Carbon Footprint Tracker</title>
     <link rel="stylesheet" href="styles.css" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
   </head>
   <body>
     <!-- Auth Modal -->
@@ -53,7 +54,6 @@
       </div>
     </div>
 
-    <!-- Navigation -->
     <nav class="navbar">
       <div class="nav-container">
         <div class="nav-brand">
@@ -62,6 +62,18 @@
         <div class="nav-menu">
           <div id="user-info" class="user-info hidden">
             <span id="username-display"></span>
+            <div class="nav-notifications">
+              <a
+                id="notifications-btn"
+                class="btn btn-outline notifications-btn"
+                href="#personal-insights"
+              >
+                🔔
+                <span id="notification-count" class="notification-badge hidden"
+                  >0</span
+                >
+              </a>
+            </div>
             <button id="logout-btn" class="btn btn-outline">Logout</button>
           </div>
           <div id="auth-buttons" class="auth-buttons">
@@ -71,6 +83,18 @@
         </div>
       </div>
     </nav>
+
+    <!-- Live Tip Banner -->
+    <div id="live-tip-banner" class="live-tip-banner hidden">
+      <div class="live-tip-content">
+        <span class="live-tip-icon">💡</span>
+        <div class="live-tip-text">
+          <div class="live-tip-title">Smart Tip</div>
+          <div id="live-tip-message">Loading personalized tip...</div>
+        </div>
+        <button id="dismiss-tip" class="live-tip-dismiss">×</button>
+      </div>
+    </div>
 
     <!-- Main Content -->
     <main class="container">
@@ -157,6 +181,7 @@
             <button class="tab-btn active" data-tab="activities">
               📝 Activities
             </button>
+            <button class="tab-btn" data-tab="goals">🎯 Goals</button>
             <button class="tab-btn" data-tab="weekly">📊 Weekly View</button>
             <button class="tab-btn" data-tab="leaderboard">
               🏆 Leaderboard
@@ -256,6 +281,69 @@
             </div>
           </div>
 
+          <!-- Goals Tab -->
+          <div id="goals-tab" class="tab-content">
+            <!-- Create Goal Form -->
+            <div class="card">
+              <h2>Create New Goal</h2>
+              <form id="goal-form">
+                <div class="form-grid">
+                  <div class="form-group">
+                    <label for="goal-type">Goal Type</label>
+                    <select id="goal-type" required>
+                      <option value="weekly">Weekly Goal</option>
+                      <option value="monthly">Monthly Goal</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="goal-category">Category</label>
+                    <select id="goal-category" required>
+                      <option value="overall">Overall Emissions</option>
+                      <option value="transport">🚗 Transport</option>
+                      <option value="food">🍽️ Food</option>
+                      <option value="energy">⚡ Energy</option>
+                      <option value="other">📦 Other</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="goal-target">Target Reduction (kg CO2)</label>
+                    <input
+                      type="number"
+                      id="goal-target"
+                      step="0.1"
+                      min="0.1"
+                      required
+                      placeholder="e.g., 5.0"
+                    />
+                  </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary">
+                  Create Goal
+                </button>
+              </form>
+            </div>
+
+            <!-- Goals List -->
+            <div class="card">
+              <h2>Your Goals</h2>
+              <div class="goal-filters">
+                <button class="filter-btn active" data-status="active">
+                  Active
+                </button>
+                <button class="filter-btn" data-status="completed">
+                  Completed
+                </button>
+                <button class="filter-btn" data-status="all">All</button>
+              </div>
+              <div id="goals-list" class="goals-list">
+                <div class="loading">Loading goals...</div>
+              </div>
+            </div>
+          </div>
+
           <!-- Weekly Tab -->
           <div id="weekly-tab" class="tab-content">
             <div class="card">
@@ -292,12 +380,37 @@
             </div>
           </div>
         </section>
+
+        <!-- Weekly Goal Section -->
+        <section class="goal-section">
+          <div class="goal-card">
+            <div class="goal-header">
+              <h3>🎯 Weekly Goal</h3>
+              <button id="refresh-goal" class="btn btn-outline btn-small">
+                Refresh
+              </button>
+            </div>
+            <div id="goal-content" class="goal-content">
+              <div class="loading">Loading your weekly goal...</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Insights Section -->
+        <section class="insights-section" id="personal-insights">
+          <div class="insights-header">
+            <h3>🧠 Personal Insights</h3>
+          </div>
+          <div id="insights-list" class="insights-list">
+            <div class="loading">Loading insights...</div>
+          </div>
+        </section>
       </div>
     </main>
 
     <!-- Notification Container -->
     <div id="notification-container" class="notification-container"></div>
 
-    <script src="script.js"></script>
+    <script src="script.js" type="module"></script>
   </body>
 </html>
